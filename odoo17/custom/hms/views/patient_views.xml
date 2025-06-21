@@ -11,9 +11,10 @@
                         <field name="birth_date"/>
                         <field name="age"/>
                         <field name="history"/>
-                        <field name="cr_ratio"/>
+<!--                        still there is a problem-->
+                        <field name="cr_ratio" attrs="{'required': [('pcr', '=', True)]}"/>
                         <field name="blood_type"/>
-                        <field name="pcr"/>
+                        <field name="pcr" attrs="{'readonly': [('age', '<', 30)]}"/>
                         <field name="image" widget="image"/>
                         <field name="address"/>
                         <field name="department_id"/>

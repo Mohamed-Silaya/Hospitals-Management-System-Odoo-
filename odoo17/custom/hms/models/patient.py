@@ -50,13 +50,8 @@ class Patient(models.Model):
                         }
                     }
 
-    # @api.constrains('pcr', 'birth_date')
-    # def _check_pcr_requirement(self):
-    #     for rec in self:
-    #         if rec.birth_date:
-    #             today = date.today()
-    #             age = today.year - rec.birth_date.year - (
-    #                 (today.month, today.day) < (rec.birth_date.month, rec.birth_date.day)
-    #             )
-    #             if age < 30 and not rec.pcr:
-    #                 raise ValidationError("PCR is required for patients under 30 years old")
+@api.constrains('pcr', 'cr_ratio')
+def _check_cr_ratio_required(self):
+    for rec in self:
+        if rec.pcr and not rec.cr_ratio:
+            raise ValidationError("CR Ratio is required when PCR is checked")
