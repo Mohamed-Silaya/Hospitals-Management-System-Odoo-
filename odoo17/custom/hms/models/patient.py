@@ -1,4 +1,5 @@
 from odoo import models, fields, api
+from odoo.exceptions import ValidationError
 from datetime import date
 
 class Patient(models.Model):
@@ -14,7 +15,7 @@ class Patient(models.Model):
         ('A+', 'A+'), ('A-', 'A-'), ('B+', 'B+'), ('B-', 'B-'),
         ('AB+', 'AB+'), ('AB-', 'AB-'), ('O+', 'O+'), ('O-', 'O-')
     ])
-    pcr = fields.Boolean()
+    pcr = fields.Boolean(string="PCR Required")
     image = fields.Binary(attachment=True)
     address = fields.Text()
     age = fields.Integer(compute="_compute_age", store=True)
@@ -29,7 +30,7 @@ class Patient(models.Model):
         ('serious', 'Serious')
     ], default='undetermined')
 
-    @api.depends('birth_date')
+    @api.onchange('birth_date','pcr')
     def _compute_age(self):
         for rec in self:
             if rec.birth_date:
@@ -37,5 +38,25 @@ class Patient(models.Model):
                 rec.age = today.year - rec.birth_date.year - (
                     (today.month, today.day) < (rec.birth_date.month, rec.birth_date.day)
                 )
-            else:
-                rec.age = 0
+                if rec.age < 30:
+                    if not self.pcr:
+                        self.pcr = True
+                    return {
+                        'value': {'pcr': True},
+                        'domain': {},
+                        'warning': {
+                            'title': "PCR Locked",
+                            'message': "PCR cannot be unchecked for patients under 30 years old.",
+                        }
+                    }
+
+    # @api.constrains('pcr', 'birth_date')
+    # def _check_pcr_requirement(self):
+    #     for rec in self:
+    #         if rec.birth_date:
+    #             today = date.today()
+    #             age = today.year - rec.birth_date.year - (
+    #                 (today.month, today.day) < (rec.birth_date.month, rec.birth_date.day)
+    #             )
+    #             if age < 30 and not rec.pcr:
+    #                 raise ValidationError("PCR is required for patients under 30 years old")

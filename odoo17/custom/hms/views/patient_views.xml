@@ -5,7 +5,7 @@
         <field name="arch" type="xml">
             <form string="Patient">
                 <sheet>
-                    <group>
+                    <group string="patient data">
                         <field name="first_name"/>
                         <field name="last_name"/>
                         <field name="birth_date"/>
@@ -19,6 +19,7 @@
                         <field name="department_id"/>
                         <field name="department_capacity"/>
                         <field name="doctor_ids" widget="many2many_tags"/>
+<!--                         options="{'field': 'full_name'}"-->
                         <field name="state"/>
                     </group>
                 </sheet>
