@@ -55,3 +55,27 @@ def _check_cr_ratio_required(self):
     for rec in self:
         if rec.pcr and not rec.cr_ratio:
             raise ValidationError("CR Ratio is required when PCR is checked")
+
+
+# handle logs
+@api.model
+def create(self, vals):
+    record = super(Patient, self).create(vals)
+    if 'state' in vals:
+        record._create_log('State set to {}'.format(vals['state']))
+    return record
+
+
+def write(self, vals):
+    if 'state' in vals:
+        for record in self:
+            record._create_log('State changed to {}'.format(vals['state']))
+    return super(Patient, self).write(vals)
+
+
+def _create_log(self, description):
+    self.ensure_one()
+    self.env['patient.log.history'].create({
+        'patient_id': self.id,
+        'description': description,
+    })
