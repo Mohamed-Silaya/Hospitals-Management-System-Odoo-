@@ -5,8 +5,9 @@
     'description': 'Module for managing patient records in hospitals',
     'category': 'Healthcare',
     'author': 'Mohamed Silaya',
-    'depends': ['base'],
+    'depends': ['base','mail'],
     'data': [
+        'security/ir.model.access.csv',
         'views/actions.xml',
         'views/patient_views.xml',
         'views/department_views.xml',

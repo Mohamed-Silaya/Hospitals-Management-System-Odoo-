@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hms_patient,hms.patient,model_hms_patient,base.group_user,1,1,1,1
+access_log_history_read,patient.log.history.read,model_patient_log_history,base.group_user,1,1,1,1
+access_log_history_create,patient.log.history.create,model_patient_log_history,base.group_user,1,1,1,1

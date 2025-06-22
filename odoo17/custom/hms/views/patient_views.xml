@@ -5,6 +5,9 @@
         <field name="arch" type="xml">
             <form string="Patient">
                 <sheet>
+                    <notebook>
+
+                    <page string="Patient ddTAs">
                     <group string="patient data">
                         <field name="first_name"/>
                         <field name="last_name"/>
@@ -23,19 +26,21 @@
 <!--                         options="{'field': 'full_name'}"-->
                         <field name="state"/>
                     </group>
-                </sheet>
-<!--                Logs view -->
-                <notebook>
-                    <page string="Log History">
-                        <field name="log_history_ids" readonly="1">
+                    </page>
+
+                      <!--                Logs view -->
+                    <page string="Custom Logs">
+                        <field name="log_history_ids" widget="one2many_list">
                             <tree>
-                                <field name="created_by" readonly="1"/>
-                                <field name="create_date" readonly="1"/>
-                                <field name="description" readonly="1"/>
+                                <field name="create_date"/>
+                                <field name="created_by"/>
+                                <field name="description"/>
                             </tree>
                         </field>
                     </page>
                 </notebook>
+                </sheet>
+
             </form>
         </field>
     </record>
