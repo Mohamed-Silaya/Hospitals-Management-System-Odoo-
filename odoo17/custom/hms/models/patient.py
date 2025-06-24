@@ -21,6 +21,7 @@ class Patient(models.Model):
     image = fields.Binary(attachment=True)
     address = fields.Text()
     age = fields.Integer(compute="_compute_age", store=True)
+    email = fields.Char(string='Email', required=True)
 
     department_id = fields.Many2one('hms.department')
     department_capacity = fields.Integer(related='department_id.capacity', readonly=True)
@@ -36,6 +37,17 @@ class Patient(models.Model):
         'patient_id',
         string='Log History'
     )
+
+    @api.constrains('email')
+    def _check_valid_email(self):
+        for record in self:
+            if record.email and '@' not in record.email:
+                raise ValidationError("Invalid email address: %s" % record.email)
+
+    _sql_constraints = [
+        ('email_unique', 'UNIQUE(email)', 'Email address must be unique.')
+    ]
+
     @api.depends('birth_date')
     def _compute_age(self):
         for rec in self:

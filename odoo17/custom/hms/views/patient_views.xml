@@ -7,17 +7,17 @@
                 <sheet>
                     <notebook>
 
-                    <page string="Patient ddTAs">
+                    <page string="Patient DATA">
                     <group string="patient data">
                         <field name="first_name"/>
                         <field name="last_name"/>
+                        <field name="email" />
                         <field name="birth_date"/>
                         <field name="age"/>
                         <field name="history"/>
-<!--                        still there is a problem-->
-                        <field name="cr_ratio" attrs="{'required': [('pcr', '=', True)]}"/>
+                        <field name="cr_ratio" required= "'pcr' == True"/>
                         <field name="blood_type"/>
-                        <field name="pcr" attrs="{'readonly': [('age', '<', 30)]}"/>
+                        <field name="pcr" modifiers="{'readonly': [('age', '&lt;', 50)]}" />
                         <field name="image" widget="image"/>
                         <field name="address"/>
                         <field name="department_id"/>
@@ -52,6 +52,7 @@
             <tree string="Patients">
                 <field name="first_name"/>
                 <field name="last_name"/>
+                <field name="email"/>
                 <field name="age"/>
                 <field name="department_id"/>
                 <field name="state"/>

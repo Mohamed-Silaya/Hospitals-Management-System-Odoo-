@@ -7,13 +7,13 @@
     'author': 'Mohamed Silaya',
     'depends': ['base','mail'],
     'data': [
-        'security/ir.model.access.csv',
         'views/actions.xml',
         'views/patient_views.xml',
+        'security/ir.model.access.csv',
         'views/department_views.xml',
         'views/doctor_views.xml',
+        'views/partner_views.xml',
         'views/menus.xml',
-
     ],
     'installable': True,
     'application': True,
